@@ -1,0 +1,37 @@
+server:
+  port: 9000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+#      default-filters:
+#        - TokenRelay
+
+      routes:
+        - id: message-service
+          uri: lb://message-service
+          predicates:
+            - Path=/api/v1/chat/**, /api/v1/chatroom/**
+
+        - id: ws-message-service
+          uri: lb:ws://message-service
+          predicates:
+            - Path=/chat/**
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/member/**
+

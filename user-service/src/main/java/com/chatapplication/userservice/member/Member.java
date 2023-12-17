@@ -26,9 +26,6 @@ import java.util.UUID;
 public class Member implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
     private String username;
 
     @Enumerated(EnumType.STRING)

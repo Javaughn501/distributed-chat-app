@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+<body>
+
+<script>
+    // Replace 'your-websocket-endpoint' with the actual WebSocket endpoint
+    const socket = new SockJS('http://localhost:8080/chat');
+    const stompClient = Stomp.over(socket);
+
+    // Callback function to handle messages received from the server
+    const onMessageReceived = (message) => {
+        console.log('Received message:', message.body);
+    };
+
+    // Callback function to handle successful connection
+    const onConnect = () => {
+        console.log('Connected to WebSocket');
+
+        // Subscribe to a destination (replace 'your-destination' with the actual destination)
+        stompClient.subscribe('/user/john/queue/messages', onMessageReceived);
+
+        const chatMessage = {
+            chat: '6966ffe4-1a0f-49bc-b80a-3ae95f6bc802',
+            senderId: 'john',
+            recipientId: 'brow',
+            content: 'Hello, how are you?',
+        };
+
+
+
+        // Send a test message (replace 'your-message' with the actual message)
+        stompClient.send('/app/chat', {}, JSON.stringify(chatMessage));
+    };
+
+    // Callback function to handle disconnection
+    const onDisconnect = () => {
+        console.log('Disconnected from WebSocket');
+    };
+
+    // Connect to the WebSocket
+    stompClient.connect({}, onConnect, onDisconnect);
+
+    // Optionally, you can set up a timer to disconnect after a certain period
+    // setTimeout(() => {
+    //     stompClient.disconnect();
+    // }, 5000);
+</script>
+
+</body>
+</html>

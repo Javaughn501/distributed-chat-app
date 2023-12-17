@@ -1,8 +1,7 @@
-package com.chatapplication.messageservice.chatroom;
+package com.chatapplication.messageservice.chat;
 
 
-import com.chatapplication.messageservice.chat.ChatMessage;
-import com.chatapplication.messageservice.chat.Message;
+import com.chatapplication.messageservice.chatroom.ChatRoom;
 import com.chatapplication.messageservice.user.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,8 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.Set;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -19,14 +17,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-public class ChatRoom {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private ChatRoom chat;
     private String senderId;
     private String recipientId;
+    private String content;
+    private LocalTime timestamp;
 
-    @OneToMany
-    private List<Message> messages;
 }

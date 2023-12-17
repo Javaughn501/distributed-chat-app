@@ -1,0 +1,6 @@
+connect with user service to validate users
+
+add fault tolerance
+
+add kubernetes for self healing
+

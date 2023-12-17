@@ -1,0 +1,43 @@
+server:
+  port: 8082
+spring:
+
+  application:
+    name: message-service
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/message
+    username: message
+    password: message
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+
+  # Redis Configuration
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: 6379
+
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  queue:
+    name: "#{appTopic}"
+  exchange:
+   name: message_exchange
+  routing:
+    key: message_routing_key
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/  # Set the URL of your Eureka server
+  instance:
+    preferIpAddress: true

@@ -1,17 +1,15 @@
-package com.chatapplication.messageservice.user;
+package com.chatapplication.messageservice.exception;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Users {
-    private String username;
+public class ExceptionDTO {
+    private String message;
 }

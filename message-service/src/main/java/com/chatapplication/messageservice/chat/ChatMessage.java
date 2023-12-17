@@ -14,12 +14,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class ChatMessage {
-
     private UUID id;
-    private UUID chatId;
+    private UUID chat;
     private String senderId;
     private String recipientId;
     private String content;
     private LocalTime timestamp;
-
 }

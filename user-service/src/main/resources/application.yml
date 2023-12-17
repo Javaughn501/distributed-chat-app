@@ -1,19 +1,28 @@
+server:
+  port: 8081
+
 spring:
 
   application:
-    name: "user-service"
+    name: user-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/chat
-    username: chat
-    password: chat
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/user
+    username: user
+    password: user
     driver-class-name: org.postgresql.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
 
 jwt:
   secret: "10b1c60213f53f6a83a0c4e48f59d5b2f80a4c3da5e38c49d96bacf9014dff6a"
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/  # Set the URL of your Eureka server
+  instance:
+    preferIpAddress: true

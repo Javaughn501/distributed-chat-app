@@ -1,13 +1,12 @@
 package com.chatapplication.userservice.member;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/v1/member")
+@RequestMapping("/api/v1/member")
 public class MemberController {
 
     private final MemberService memberService;

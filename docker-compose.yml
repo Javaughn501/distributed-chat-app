@@ -1,19 +1,106 @@
 version: '3'
 
 services:
-  db:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+
+    ports:
+      - "9000:9000"
+
+  message-service:
+    build:
+      context: ./message-service
+      dockerfile: Dockerfile
+
+    environment:
+      DB_HOST: db-message
+      REDIS_HOST: redis
+      RABBIT_HOST: rabbitmq
+      EUREKA_HOST: service-discovery
+
+    depends_on:
+      db-message:
+        condition: service_healthy
+
+
+
+  service-discovery:
+    build:
+      context: ./service-discovery
+      dockerfile: Dockerfile
+
+    ports:
+      - "8761:8761"
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+
+    environment:
+      DB_HOST: db-user
+      EUREKA_HOST: service-discovery
+
+    depends_on:
+      db-user:
+        condition: service_healthy
+
+
+
+  db-user:
+    image: postgres:15
+    restart: always
+    ports:
+      - '5433:5432'
+
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-h", "localhost", "-p", "5432", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: user
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  db-message:
     image: postgres:15
     restart: always
     ports:
       - '5432:5432'
 
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-h", "localhost", "-p", "5432", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
     environment:
-      POSTGRES_USER: chat
-      POSTGRES_PASSWORD: chat
-      POSTGRES_DB: chat
+      POSTGRES_USER: message
+      POSTGRES_PASSWORD: message
+      POSTGRES_DB: message
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - message_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:management
+    restart: no
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   postgres_data:
+  message_data:
