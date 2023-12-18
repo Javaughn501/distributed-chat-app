@@ -6,6 +6,9 @@ services:
       context: ./gateway
       dockerfile: Dockerfile
 
+    environment:
+      EUREKA_HOST: service-discovery
+
     ports:
       - "9000:9000"
 
@@ -67,7 +70,7 @@ services:
       POSTGRES_DB: user
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - user_data:/var/lib/postgresql/data
 
   db-message:
     image: postgres:15
@@ -102,5 +105,5 @@ services:
       - "15672:15672"
 
 volumes:
-  postgres_data:
+  user_data:
   message_data:

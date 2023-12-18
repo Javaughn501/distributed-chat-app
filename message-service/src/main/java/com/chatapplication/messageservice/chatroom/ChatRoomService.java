@@ -2,7 +2,7 @@ package com.chatapplication.messageservice.chatroom;
 
 
 import com.chatapplication.messageservice.exception.ResourceNotFoundException;
-import com.chatapplication.messageservice.user.UserClient;
+import com.chatapplication.messageservice.feign.UserClient;
 import com.chatapplication.messageservice.user.Users;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +39,8 @@ public class ChatRoomService {
                 .build();
 
         ChatRoom receiverRoom = ChatRoom.builder()
-                .recipientId(recipient.getUsername())
-                .senderId(sender.getUsername())
+                .senderId(recipient.getUsername())
+                .recipientId(sender.getUsername())
                 .build();
 
         ChatRoom savedRoom = chatRoomRepository.save(senderRoom);

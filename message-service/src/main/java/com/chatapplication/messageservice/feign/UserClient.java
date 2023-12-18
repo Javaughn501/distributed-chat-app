@@ -1,6 +1,7 @@
-package com.chatapplication.messageservice.user;
+package com.chatapplication.messageservice.feign;
 
 
+import com.chatapplication.messageservice.user.Users;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

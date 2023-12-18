@@ -41,3 +41,9 @@ eureka:
       defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/  # Set the URL of your Eureka server
   instance:
     preferIpAddress: true
+
+flyway:
+  locations: classpath:db/migration
+
+jwt:
+  secret: "10b1c60213f53f6a83a0c4e48f59d5b2f80a4c3da5e38c49d96bacf9014dff6a"
