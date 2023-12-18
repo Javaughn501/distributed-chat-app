@@ -42,7 +42,27 @@ const Dashboard = () => {
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user:details')))
     const [conversations, setConversations] = useState([])
+    const [messages, setMessages] = useState([])
     console.log('User :>> ', user);
+    console.log('Conversations :>> ', conversations);
+
+    const fetchMessages = async(conversationId) => {
+        console.log(conversationId);
+        const token = localStorage.getItem('user:token')
+        await fetch(messageEndpoints.getMessagesForChat(conversationId), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log(res);
+            setMessages(res);
+        })
+        .catch((err) => console.log(err))
+    }
 
     return (
         <div className='w-screen flex'>
@@ -61,10 +81,11 @@ const Dashboard = () => {
                     <div className='text-primary text-lg'>Messages</div>
                     <div>
                         {
+                            conversations.length > 0 ?
                             conversations.map((conversations) => {
                                 return (
                                     <div className='flex items-center py-8 border-b border-b-gray-300'>
-                                        <div className='cursor-pointer flex items-center'>
+                                        <div className='cursor-pointer flex items-center' onClick={() => fetchMessages(conversations.id)}>
                                             <div>
                                                 <img src={Avatar} width={60} height={60} />
                                             </div>
@@ -75,6 +96,7 @@ const Dashboard = () => {
                                     </div>
                                 )
                             })
+                            : <div className='text-center text-lg font-semibold mt-24'>No Conversations</div>
                         }
                     </div>
                 </div>

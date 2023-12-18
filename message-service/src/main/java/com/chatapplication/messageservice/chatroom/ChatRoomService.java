@@ -34,36 +34,29 @@ public class ChatRoomService {
         }
 
         ChatRoom senderRoom = ChatRoom.builder()
-                .senderId(sender.getUsername())
-                .recipientId(recipient.getUsername())
-                .build();
-
-        ChatRoom receiverRoom = ChatRoom.builder()
-                .senderId(recipient.getUsername())
-                .recipientId(sender.getUsername())
+                .user1(sender.getUsername())
+                .user2(recipient.getUsername())
                 .build();
 
         ChatRoom savedRoom = chatRoomRepository.save(senderRoom);
-        chatRoomRepository.save(receiverRoom);
-
         //TODO: Create Chat - Check if both recepient exists
         //TODO: Create chat Room for othe rperson too
 
 
         return ChatRoomDTO.builder()
                 .id(savedRoom.getId())
-                .senderId(savedRoom.getSenderId())
-                .recipientId(savedRoom.getRecipientId())
+                .senderId(savedRoom.getUser1())
+                .recipientId(savedRoom.getUser2())
                 .build();
     }
 
     public List<ChatRoomDTO> getAllChats(String username) {
-        return chatRoomRepository.findAllBySenderId(username)
+        return chatRoomRepository.findAllByUser1OrUser2(username)
                 .stream()
                 .map(room -> ChatRoomDTO.builder()
                         .id(room.getId())
-                        .senderId(room.getSenderId())
-                        .recipientId(room.getRecipientId())
+                        .senderId(room.getUser1())
+                        .recipientId(room.getUser2())
                         .build()
                 )
                 .toList();

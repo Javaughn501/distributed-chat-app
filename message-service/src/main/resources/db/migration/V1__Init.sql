@@ -1,7 +1,7 @@
 CREATE TABLE chat_room (
     id UUID PRIMARY KEY,
-    sender_id VARCHAR(255) NOT NULL,
-    recipient_id VARCHAR(255) NOT NULL
+    user1 VARCHAR(255) NOT NULL,
+    user2 VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE message (

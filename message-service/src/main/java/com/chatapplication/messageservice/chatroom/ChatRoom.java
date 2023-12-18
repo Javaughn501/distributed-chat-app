@@ -24,8 +24,8 @@ public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String senderId;
-    private String recipientId;
+    private String user1;
+    private String user2;
 
     @OneToMany
     private List<Message> messages;
